@@ -22,12 +22,19 @@
         var lastResult, countResults = 0;
         function onScanSuccess(decodedText, decodedResult) {
             if (decodedText !== lastResult) {
+                let minicurso = document.getElementById("minicurso").value;
                 ++countResults;
                 lastResult = decodedText;
                 // Handle on success condition with the decoded message.
                 console.log(`Scan result ${decodedText}`, decodedResult);
-                fetch(`https://ersbq2022.qui.ufmg.br/registra_frequencia.php?numero_inscricao=$`)
-                alert(`Scan result ${decodedText}`);
+                fetch(`https://ersbq2022.qui.ufmg.br/registra_frequencia.php?numero_inscricao=${decodedText}&codigo_minicurso=${minicurso}`)
+                .then(response => response.json())
+                .then(val =>{
+                    alert(val);
+                })
+                .catch(e =>{
+                    alert("Não foi possível realizar o registro da frequência, tente novamente mais tarde!");
+                })
             }
         }   
 
@@ -40,5 +47,16 @@
 </head>
 <body>
     <div id="qr-reader"></div>
+    <select id="minicurso" name="codigo_minicurso">
+        <option value="nenhum" selected="selected">Nenhum Minicurso</option>
+        <option value="minicurso1">Análises químicas em toxicologia forense</option>
+        <option value="minicurso2">Metalofármacos contra doenças parasitárias</option>
+        <option value="minicurso3">Recursos educacionais abertos e storytelling no ensino de química</option>
+        <option value="minicurso4">Introdução a ciência e tecnologia cervejeira</option>
+        <option value="minicurso5">Levando tecnologias do laboratório ao mercado: escalonamento e modelagem de negócio</option>
+        <option value="minicurso6">Do Lattes ao tiktok. Como e onde precisamos estar?</option>
+        <option value="minicurso7">Espectroscopias Raman e Infravermelho: interpretando espectros para conhecer compostos.</option>
+        <option value="minicurso8">Ecologia Química: Mecanismos de comunicação entre organismos vivos via compostos orgânicos</option>
+    </select>
 </body>
 </html>
