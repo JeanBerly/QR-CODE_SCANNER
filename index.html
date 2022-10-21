@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./minified/html5-qrcode.min.js"></script>
+    <title>Registra Frequência</title>
+</head>
+<body>
+    <div id="qr-reader"></div>
     <script defer>
         var html5QrcodeScanner = new Html5QrcodeScanner(
             "qr-reader", { fps: 10, qrbox: 250 });
@@ -24,10 +28,6 @@
             //})
         }
     </script>
-    <title>Registra Frequência</title>
-</head>
-<body>
-    <div id="qr-reader"></div>
     <select id="minicurso" name="codigo_minicurso">
         <option value="nenhum" selected="selected">Nenhum Minicurso</option>
         <option value="minicurso1">Análises químicas em toxicologia forense</option>
