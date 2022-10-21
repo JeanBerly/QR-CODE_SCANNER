@@ -17,14 +17,6 @@
         }
     }
 
-    function getDataFromScan(decodedText){
-        let data = new Map();
-        let code = decodedText.split("REV:");
-        code = code[1].split("END");
-        code = code[0];
-        alert(code);
-    }
-
     docReady(function () {
         var resultContainer = document.getElementById('qr-reader-results');
         var lastResult, countResults = 0;
@@ -33,7 +25,6 @@
                 let minicurso = document.getElementById("minicurso").value;
                 ++countResults;
                 lastResult = decodedText;
-                getDataFromScan(decodedText);
                 // Handle on success condition with the decoded message.
                 console.log(`Scan result ${decodedText}`, decodedResult);
                 alert("Texto decodificado: " + decodedText);
