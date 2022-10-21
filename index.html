@@ -10,22 +10,43 @@
 <body>
     <div id="qr-reader"></div>
     <script defer>
+        const usuarioNaoExiste = 0;
+        const usuarioExisteEInscrito = 1;
+        const usuarioExisteMasNaoInscrito = 2;
+        let ultimoNumeroInscricaoLido = "";
         var html5QrcodeScanner = new Html5QrcodeScanner(
             "qr-reader", { fps: 10, qrbox: 250 });
         html5QrcodeScanner.render(onScanSuccess);
         var resultContainer = document.getElementById('qr-reader-results');
-        function onScanSuccess(decodedText, decodedResult) {
+        function onScanSuccess(numeroInscricao, decodedResult) {
+            ultimoNumeroInscricaoLido = numeroInscricao;
             let minicurso = document.getElementById("minicurso").value;
             // Handle on success condition with the decoded message.
-            alert("Texto decodificado: " + decodedText);
-            //fetch(`https://ersbq2022.qui.ufmg.br/registra_frequencia.php?numero_inscricao=${decodedText}&codigo_minicurso=${minicurso}`)
-            //.then(response => response.json())
-            //.then(val =>{
-            //    alert(val);
-            //})
-            //.catch(e =>{
-            //    alert("Não foi possível realizar o registro da frequência, tente novamente mais tarde!");
-            //})
+            alert("Numero inscrição: " + numeroInscricao);
+            fetch(`https://ersbq2022.qui.ufmg.br/verifica_usuario_inscrito_minicurso.php?numero_inscricao=${numeroInscricao}&codigo_minicurso=${minicurso}`)
+            .then(response => response.json())
+            .then(val =>{
+                if (val.codigo == usuarioNaoExiste || val.codigo == usuarioExisteMasNaoInscrito){
+                    alert (val.status);
+                }
+                else{
+                    document.getElementById("confirmarPresenca").disabled = false;
+                }
+            })
+            .catch(erro =>{
+                alert("Não foi possível realizar o registro da frequência, tente novamente mais tarde!");
+            })
+        }
+        function confirmarPresenca(){
+            fetch(`https://ersbq2022.qui.ufmg.br/registra_frequencia.php?numero_inscricao=${ultimoNumeroInscricaoLido}&codigo_minicurso=${minicurso}`)
+            .then(response => response.json())
+            .then(val =>{
+                alert(val);
+            })
+            .catch(erro =>{
+                alert("Não foi possível realizar o registro da frequência, tente novamente mais tarde!");
+            })
+            document.getElementById("confirmarPresenca").disabled = true;
         }
     </script>
     <select id="minicurso" name="codigo_minicurso">
@@ -39,5 +60,6 @@
         <option value="minicurso7">Espectroscopias Raman e Infravermelho: interpretando espectros para conhecer compostos.</option>
         <option value="minicurso8">Ecologia Química: Mecanismos de comunicação entre organismos vivos via compostos orgânicos</option>
     </select>
+    <button id="confirmarPresenca" onclick="confirmarPresenca()">Confirmar presença</button>
 </body>
 </html>
