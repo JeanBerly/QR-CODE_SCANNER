@@ -27,6 +27,7 @@
                 lastResult = decodedText;
                 // Handle on success condition with the decoded message.
                 console.log(`Scan result ${decodedText}`, decodedResult);
+                alert("Texto decodificado: " + decodedText);
                 fetch(`https://ersbq2022.qui.ufmg.br/registra_frequencia.php?numero_inscricao=${decodedText}&codigo_minicurso=${minicurso}`)
                 .then(response => response.json())
                 .then(val =>{
